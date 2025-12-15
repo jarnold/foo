@@ -1117,7 +1117,15 @@ function renderWizard(){
 function navButtons(canNext=true){
   const bar = el('div',{class:'btnbar'});
   bar.appendChild(el('button',{class:'secondary', onClick:()=>{ stepIndex = Math.max(0, stepIndex-1); renderWizard(); } , disabled: stepIndex===0}, 'Back'));
-  bar.appendChild(el('button',{onClick:()=>{ stepIndex = Math.min(STEPS.length-1, stepIndex+1); renderWizard(); }, disabled: !canNext || stepIndex===STEPS.length-1}, stepIndex === STEPS.length-1 ? 'Next' : 'Next'));
+
+  const isLastStep = stepIndex === STEPS.length-1;
+  const nextLabel = stepIndex === STEPS.length-2 ? 'Review' : 'Next';
+
+  bar.appendChild(el('button',{
+    onClick:()=>{ stepIndex = Math.min(STEPS.length-1, stepIndex+1); renderWizard(); },
+    disabled: !canNext || isLastStep
+  }, nextLabel));
+
   return bar;
 }
 
